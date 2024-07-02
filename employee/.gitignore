@@ -65,3 +65,4 @@ logs/
 *.swp
 ### IDE ###
 *.DS_Store
+.metadata/
