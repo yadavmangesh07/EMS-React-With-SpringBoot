@@ -66,3 +66,6 @@ logs/
 ### IDE ###
 *.DS_Store
 .metadata/
+### IDE ###
+*.DS_Store
+.metadata/
