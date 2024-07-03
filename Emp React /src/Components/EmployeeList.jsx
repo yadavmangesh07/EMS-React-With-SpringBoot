@@ -64,10 +64,11 @@ const EmployeeList = ({ employees, onSelectEmployee, onDeleteEmployee }) => {
 
       </div>
       <SnackbarWithDecorators
+        message="Employee Deleted Successfully"
         open={showSnackbar}
         onClose={() => setShowSnackbar(false)}
-        message="Employee Deleted Successfully"
-        color={'danger'}/>
+        color={'danger'}
+        />
     </div>
   );
 };

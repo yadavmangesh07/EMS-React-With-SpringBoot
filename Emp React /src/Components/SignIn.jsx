@@ -140,7 +140,7 @@ export default function SignIn({Login, setLogin}) {
             <Grid container>
                 {!createAccount &&
               <Grid item xs>
-                <Link href="#" variant="body2" >
+                <Link href="/forgotPassword" variant="body2" >
                   Forgot password?
                 </Link>
               </Grid>}

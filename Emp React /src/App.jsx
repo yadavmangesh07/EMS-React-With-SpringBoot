@@ -3,6 +3,7 @@ import Dashboard  from './Components/Dashboard'
 import SignIn from './Components/SignIn'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import ResetPassword from './Components/ResetPassword'
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
           
           <Route path="/"element={<SignIn Login={Login} setLogin={setLogin} />} />
           {Login && <Route path="/dashboard" element={<Dashboard Login={Login} setLogin={setLogin} />} />}
-
+          <Route path="forgotPassword" element={<ResetPassword/>} />
         </Routes>
       
     </Router>
