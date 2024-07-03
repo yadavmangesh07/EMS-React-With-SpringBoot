@@ -20,10 +20,10 @@ import bg from '../assets/6.jpg'
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="#">
-        ES-Manager
-      </Link>{' '}
+      {'Developed by '}
+      <a className='underline text-red-500'  href="https://www.linkedin.com/in/mangesh-yadav-65a437237">
+       Mangesh Yadav
+      </a>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
