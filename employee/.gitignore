@@ -44,7 +44,7 @@ build/
 *.ipr
 ### Eclipse ###
 .classpath
-.project
+
 .settings/
 ### NetBeans ###
 /nbproject/

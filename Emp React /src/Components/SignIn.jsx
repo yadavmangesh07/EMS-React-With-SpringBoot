@@ -14,6 +14,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom'
 import Header from './Header';
+import bg from '../assets/6.jpg'
+
 
 function Copyright(props) {
   return (
@@ -30,9 +32,10 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function SignIn({Login, setLogin}) {
   const [createAccount, setCreateAccount] = useState(false);
   const [error, setError] = useState('');
+  
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -51,8 +54,14 @@ export default function SignIn() {
         // Login
         const response = await axios.post('http://localhost:5001/login', { email, password });
         console.log('User logged in:', response.data);
+        setLogin(true);
        
-        navigate('/dashboard')
+        if(Login){
+          navigate('/dashboard')
+        }
+     
+        
+          
       }
     } catch (error) {
       setError('Error: ' + (error.response ? error.response.data.error : error.message));
@@ -65,7 +74,19 @@ export default function SignIn() {
   };
 
   return (
-    <div className='landingpage'>
+    <div 
+    style={{
+      padding: '0',
+      margin: '0',
+      backgroundImage: `url(${bg})`,
+      backgroundSize:"cover",
+      backgroundPosition:"center",
+      backgroundRepeat:"no-repeat",
+      height:"100vh"
+      
+      
+    }}
+    >
     <Header />
     <div className='mt-[6rem] ' >
       <ThemeProvider theme={defaultTheme}>

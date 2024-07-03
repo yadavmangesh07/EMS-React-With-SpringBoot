@@ -4,8 +4,9 @@ import axios from 'axios';
 import EmployeeList from './EmployeeList';
 import EmployeeForm from './EmployeeForm';
 import EmployeeDetail from './EmployeeDetail';
+import PrimarySearchAppBar from './PrimarySearchAppBar';
 
-const Dashboard = () => {
+const Dashboard = ({setLogin,Login}) => {
   const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -53,6 +54,7 @@ const Dashboard = () => {
 
   return (
     <div>
+      <PrimarySearchAppBar setLogin={setLogin} Login={Login}/>
       <h1 className='font-sans font-extralight text-center text-4xl tracking-wider mt-[2rem] underline'>Employee Management System</h1>
       <EmployeeList
         employees={employees}

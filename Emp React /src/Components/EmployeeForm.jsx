@@ -44,11 +44,11 @@ const EmployeeForm = ({ employee, onAddOrUpdateEmployee, setIsEditing }) => {
   };
 
   return (
-    <div className='m-[3rem] ml-[4.5rem] underline'>
+    <div className='m-[3rem] ml-[5rem] underline'>
       <h2 className="font-sans font-extralight text-2xl mb-4  tracking-wider ">{employee ? 'Edit Employee' : 'Add Employee'}</h2>
       <form onSubmit={handleSubmit}>
         <input
-          className='border-[1px] border-gray-300 rounded-sm p-2 m-2 w-[20rem] h-[2rem]'
+          className='border-[1px] border-gray-300 rounded-[.5rem] shadow-md p-3 m-2 w-[20rem] h-[2.5rem]  '
           type="text"
           name="firstname"
           value={formData.firstname}
@@ -57,7 +57,7 @@ const EmployeeForm = ({ employee, onAddOrUpdateEmployee, setIsEditing }) => {
           required
         />
         <input
-          className='border-[1px] border-gray-300 rounded-sm p-2 m-2 w-[20rem] h-[2rem]'
+          className='border-[1px] border-gray-300 rounded-[.5rem] shadow-md p-3 m-2 w-[20rem] h-[2.5rem]  '
           type="text"
           name="lastname"
           value={formData.lastname}
@@ -66,7 +66,7 @@ const EmployeeForm = ({ employee, onAddOrUpdateEmployee, setIsEditing }) => {
           required
         />
         <input
-          className='border-[1px] border-gray-300 rounded-sm p-2 m-2 w-[20rem] h-[2rem]'
+          className='border-[1px] border-gray-300 rounded-[.5rem] shadow-md p-3 m-2 w-[20rem] h-[2.5rem]  '
           type="email"
           name="email"
           value={formData.email}
@@ -75,7 +75,7 @@ const EmployeeForm = ({ employee, onAddOrUpdateEmployee, setIsEditing }) => {
           required
         />
         <button  
-          className=' bg-green-500  border-black hover:bg-green-700  text-white tracking-wider py-1 px-4 rounded'
+          className=' bg-green-500  border-black hover:bg-green-700  text-white tracking-wider py-2 px-5 rounded'
           type="submit">{employee ? 'Update' : 'Add'}
         </button>
       </form>

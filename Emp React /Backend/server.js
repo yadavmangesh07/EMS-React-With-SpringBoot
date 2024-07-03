@@ -62,6 +62,28 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Error logging in user' });
   }
 });
+// Reset password endpoint
+app.post('/reset-password', async (req, res) => {
+  const { email, newPassword } = req.body;
+  console.log(`Reset password request received for email: ${email}`); // Log the received request
+  try {
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const result = await pool.query(
+      'UPDATE users SET password = $1 WHERE email = $2',
+      [hashedPassword, email]
+    );
+    if (result.rowCount > 0) {
+      console.log(`Password reset successfully for email: ${email}`); // Log successful password reset
+      res.status(200).json({ message: 'Password reset successful' });
+    } else {
+      console.log(`Email not found: ${email}`); // Log email not found
+      res.status(404).json({ error: 'Email not found' });
+    }
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).json({ error: 'Error resetting password' });
+  }
+});
 
 app.listen(5001, () => {
   console.log('Server is running on port 5001');
