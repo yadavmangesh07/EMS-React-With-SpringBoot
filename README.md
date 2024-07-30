@@ -1,6 +1,6 @@
 # Employee Management System
 
-![Employee Management System](homepage.png)
+![Employee Management System](homepage.jpg)
 
 ## Overview
 
