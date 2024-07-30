@@ -1,6 +1,6 @@
 # Employee Management System
 
-![Employee Management System]()
+![Employee Management System](Emp React /src/assets/homepage.jpg)
 
 ## Overview
 
