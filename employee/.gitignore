@@ -69,3 +69,4 @@ logs/
 ### IDE ###
 *.DS_Store
 .metadata/
+.env
