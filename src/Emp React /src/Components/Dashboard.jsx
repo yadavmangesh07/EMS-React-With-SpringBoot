@@ -55,7 +55,7 @@ const Dashboard = ({setLogin,Login}) => {
   return (
     <div>
       <PrimarySearchAppBar setLogin={setLogin} Login={Login}/>
-      <h1 className='font-sans font-extralight text-center text-4xl tracking-wider mt-[2rem] underline'>Employee Management System</h1>
+      <h1 className='font-[Montserrat] font-extralight text-center text-4xl tracking-wider mt-[2rem] underline'>Employee Management System</h1>
       <EmployeeList
         employees={employees}
         onSelectEmployee={handleSelectEmployee}
