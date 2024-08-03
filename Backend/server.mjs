@@ -1,60 +1,73 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import bcrypt from 'bcryptjs';
-import pkg from 'pg';
+import mongoose from 'mongoose';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
-const { Pool } = pkg;
+dotenv.config();
+
+const mongoUrl = process.env.MONGO_DB_URL;
+
+if (!mongoUrl) {
+  console.error('MongoDB URL is not defined in the .env file');
+  process.exit(1);
+}
+
+mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => {
+    console.error('Error connecting to MongoDB:', err);
+    process.exit(1);
+  });
+
+const UserSchema = new mongoose.Schema({
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+});
+
+const User = mongoose.model('User', UserSchema);
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// PostgreSQL pool setup
-const pool = new Pool({
-  user: 'postgres',
-  host: '192.168.29.220', // Use your local network IP address
-  database: 'EMS',
-  password: 'root',
-  port: 5432,
-});
-
 // User registration endpoint
 app.post('/register', async (req, res) => {
   const { email, password } = req.body;
-//   console.log(`Register request received for email: ${email}`); // Log the received request
   try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Email already registered' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    const result = await pool.query(
-      'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id',
-      [email, hashedPassword]
-    );
-    // console.log(`User registered with ID: ${result.rows[0].id}`); // Log successful registration
-    res.status(201).json({ userId: result.rows[0].id });
+    const user = new User({ email, password: hashedPassword });
+    await user.save();
+    res.status(201).json({ userId: user._id });
   } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).json({ error: 'Error registering user' });
+    if (error.code === 11000) {
+      res.status(400).json({ error: 'Email already registered' });
+    } else {
+      console.error('Error registering user:', error);
+      res.status(500).json({ error: 'Error registering user' });
+    }
   }
 });
 
 // User login endpoint
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  console.log(`Login request received for email: ${email}`); // Log the received request
   try {
-    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-    if (result.rows.length > 0) {
-      const user = result.rows[0];
+    const user = await User.findOne({ email });
+    if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
-        console.log(`User logged in successfully: ${email}`); // Log successful login
         res.status(200).json({ message: 'Login successful' });
       } else {
-        console.log(`Invalid password for email: ${email}`); // Log invalid password attempt
         res.status(401).json({ error: 'Invalid credentials' });
       }
     } else {
-      console.log(`Email not found: ${email}`); // Log email not found
       res.status(401).json({ error: 'Invalid credentials' });
     }
   } catch (error) {
@@ -62,21 +75,16 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Error logging in user' });
   }
 });
+
 // Reset password endpoint
 app.post('/reset-password', async (req, res) => {
   const { email, newPassword } = req.body;
-  console.log(`Reset password request received for email: ${email}`); // Log the received request
   try {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    const result = await pool.query(
-      'UPDATE users SET password = $1 WHERE email = $2',
-      [hashedPassword, email]
-    );
-    if (result.rowCount > 0) {
-      console.log(`Password reset successfully for email: ${email}`); // Log successful password reset
+    const result = await User.updateOne({ email }, { password: hashedPassword });
+    if (result.matchedCount > 0) {
       res.status(200).json({ message: 'Password reset successful' });
     } else {
-      console.log(`Email not found: ${email}`); // Log email not found
       res.status(404).json({ error: 'Email not found' });
     }
   } catch (error) {
