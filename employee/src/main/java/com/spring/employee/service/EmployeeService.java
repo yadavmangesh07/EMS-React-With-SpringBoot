@@ -1,4 +1,3 @@
-
 package com.spring.employee.service;
 
 import java.util.List;
@@ -12,15 +11,15 @@ import com.spring.employee.repository.EmployeeRepository;
 
 @Service
 public class EmployeeService {
-	
-	@Autowired
+
+    @Autowired
     private EmployeeRepository employeeRepository;
 
     public List<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
-    public Optional<Employee> getEmployeeById(Long id) {
+    public Optional<Employee> getEmployeeById(String id) {
         return employeeRepository.findById(id);
     }
 
@@ -28,8 +27,7 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public void deleteEmployee(Long id) {
+    public void deleteEmployee(String id) {
         employeeRepository.deleteById(id);
     }
-
 }
